@@ -98,10 +98,16 @@ let openPort = (_path, _sendData, _state) => {
     _data = _data.trim()
     
     if (isThermoBoard && _data.startsWith(MSG_HEADER)) {
-      _sendData(_data.slice(MSG_HEADER.length))
+      let data2 = _data.slice(MSG_HEADER.length)
+      _sendData(data2)
       if (_state.recording && _state.filestream !== null) {
-        _state.filestream.write(`Time|${Date.now()}|`)
-        _state.filestream.write(_data)
+        let data3 = JSON.parse(data2)
+        _state.filestream.write(`${data3.ID},`)
+        _state.filestream.write(`${Date.now()},`)
+        data3.data.forEach(_d => {
+          _state.filestream.write(`${_d},`)
+        })
+        _state.filestream.write(`${data3.thermistor},`)
         _state.filestream.write('\n')
       }
     }
@@ -149,7 +155,7 @@ function mkdir_p(_dir) {
 function getNextFile(_dir, _prefix) {
   let currentFiles = fs.readdirSync(_dir)
   let makeFilename = _i => {
-    return `${_prefix}_${_i}.txt`
+    return `${_prefix}_${_i}.csv`
   }
 
   let i = 0
@@ -164,6 +170,11 @@ function startRecording(_state) {
 
   _state.recording = true
   _state.filestream = fs.createWriteStream(filename)
+  _state.filestream.write('Board ID,Time,')
+  for (let i = 0; i < 64; i++) {
+    _state.filestream.write(`p${i},`)
+  }
+  _state.filestream.write('thermistor\n')
 }
 
 function stopRecording(_state) {
