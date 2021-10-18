@@ -21,7 +21,7 @@ To run: `npm start`
 Click on the terminal window and spam `ctrl-c` until it exits... Or just close the terminal window. At some point I might add a more graceful shutdown...
 
 ## Saving data
-To save data click the begin recording button. To stop click the stop recording button. If you exit without clicking stop recording you ***may*** lose data but no guarentee either way. Anything already written to the file should be fine, but it buffers writes into batches so on could lose a few seconds worth (or more?).  
+To save data click the begin recording button. To stop, click the stop recording button. If you exit without clicking stop recording, you ***may*** lose data, but no guarentee either way. Any data already written to the file should be fine, but it buffers writes into batches so one could lose a few seconds worth (or more?).  
 
 Data is saved in the data folder. One can change the file name by modifying the `FILE_PREFIX` variable in `scripts/http_bridge.js`  
 
