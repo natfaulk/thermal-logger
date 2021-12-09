@@ -75,6 +75,7 @@ const DATA_DIR = path.join(__dirname, '..', 'data')
     if (
       _port.manufacturer === 'wch.cn'     // windows
       || _port.manufacturer === '1a86'    // linux
+      || _port.vendorId === '1a86'        // OSX
     ) {
       logger(`Found port ${_port.path}`)
       openPort(_port.path, sendData, state)
